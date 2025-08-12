@@ -1,73 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Momentum Tracker</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-            padding: 20px;
-            text-align: center;
-        }
-        h1 {
-            color: #4CAF50;
-        }
-        table {
-            margin: 20px auto;
-            border-collapse: collapse;
-            background-color: white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px 20px;
-        }
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Momentum Tracker</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f4f6f8; color:#333; margin:0; }
+    .wrap { max-width: 900px; margin: 40px auto; padding: 0 20px; text-align:center; }
+    h1 { color:#2e9246; margin-bottom: 6px; }
+    .sub { opacity:.8; margin-bottom:18px; }
+    table { width:100%; border-collapse: collapse; background:#fff; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+    th, td { padding: 12px 10px; border-bottom: 1px solid #e7e7e7; text-align:center; }
+    th { background:#2e9246; color:#fff; }
+    tfoot td { font-size: 12px; color:#666; }
+    .pos { color:#1a9b5a; font-weight:600; }
+    .neg { color:#d14; font-weight:600; }
+    .error { margin-top:16px; background:#fee; border:1px solid #f9b; padding:10px; border-radius:8px; display:none; }
+  </style>
 </head>
 <body>
+  <div class="wrap">
     <h1>Momentum Tracker</h1>
-    <p>Updated automatically every hour</p>
+    <div class="sub">Updated automatically every hour</div>
+
     <table>
-        <thead>
-            <tr>
-                <th>Symbol</th>
-                <th>Momentum (%)</th>
-                <th>From Price</th>
-                <th>To Price</th>
-            </tr>
-        </thead>
-        <tbody id="data"></tbody>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Momentum (%)</th>
+          <th>From Price</th>
+          <th>To Price</th>
+        </tr>
+      </thead>
+      <tbody id="rows">
+        <tr><td colspan="4">Loading…</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td id="window" colspan="4"></td></tr>
+      </tfoot>
     </table>
 
-    <script>
-        // Replace with your actual GitHub raw link to momentum.json
-        const dataUrl = "https://raw.githubusercontent.com/PsyTechPro/momentum-tracker/main/momentum.json";
+    <div id="err" class="error"></div>
+  </div>
 
-        fetch(dataUrl)
-            .then(response => response.json())
-            .then(data => {
-                const tbody = document.getElementById('data');
-                Object.keys(data).forEach(symbol => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${symbol}</td>
-                        <td>${data[symbol].momentum.toFixed(2)}%</td>
-                        <td>${data[symbol].from.toFixed(2)}</td>
-                        <td>${data[symbol].to.toFixed(2)}</td>
-                    `;
-                    tbody.appendChild(row);
-                });
-            })
-            .catch(error => {
-                console.error("Error loading data:", error);
-            });
-    </script>
+  <script>
+    // Raw JSON from your repo:
+    const DATA_URL = "https://raw.githubusercontent.com/PsyTechPro/momentum-tracker/main/momentum.json";
+
+    async function load() {
+      const rows = document.getElementById("rows");
+      const win = document.getElementById("window");
+      const err = document.getElementById("err");
+
+      try {
+        // cache-bust to avoid stale CDN cache
+        const res = await fetch(`${DATA_URL}?t=${Date.now()}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        const assets = Array.isArray(data.assets) ? data.assets : [];
+        if (assets.length === 0) {
+          rows.innerHTML = `<tr><td colspan="4">No data</td></tr>`;
+          return;
+        }
+
+        rows.innerHTML = "";
+        assets.forEach(a => {
+          const cls = (typeof a.momentum === "number" && a.momentum >= 0) ? "pos" : "neg";
+          const start = (typeof a.start_price === "number") ? a.start_price.toFixed(2) : "—";
+          const end   = (typeof a.end_price   === "number") ? a.end_price.toFixed(2)   : "—";
+          const mstr  = a.momentum_pct ?? (typeof a.momentum === "number" ? (a.momentum*100).toFixed(2) + "%" : "—");
+
+          rows.insertAdjacentHTML("beforeend", `
+            <tr>
+              <td>${a.symbol}</td>
+              <td class="${cls}">${mstr}</td>
+              <td>${start}</td>
+              <td>${end}</td>
+            </tr>
+          `);
+        });
+
+        win.textContent = `Window: ${data.lookback_days} days · ${data.start_date} → ${data.end_date} · Generated UTC: ${data.generated_at_utc}`;
+      } catch (e) {
+        err.style.display = "block";
+        err.textContent = "Failed to load data: " + e.message;
+      }
+    }
+
+    load();
+  </script>
 </body>
 </html>

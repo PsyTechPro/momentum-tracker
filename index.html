@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Momentum Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Momentum Tracker</h1>
+    <p>Updated automatically every hour</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Momentum (%)</th>
+                <th>From Price</th>
+                <th>To Price</th>
+            </tr>
+        </thead>
+        <tbody id="data"></tbody>
+    </table>
+
+    <script>
+        // Replace with your actual GitHub raw link to momentum.json
+        const dataUrl = "https://raw.githubusercontent.com/PsyTechPro/momentum-tracker/main/momentum.json";
+
+        fetch(dataUrl)
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('data');
+                Object.keys(data).forEach(symbol => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${symbol}</td>
+                        <td>${data[symbol].momentum.toFixed(2)}%</td>
+                        <td>${data[symbol].from.toFixed(2)}</td>
+                        <td>${data[symbol].to.toFixed(2)}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error("Error loading data:", error);
+            });
+    </script>
+</body>
+</html>

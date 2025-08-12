@@ -2,7 +2,7 @@ name: Run Momentum Tracker
 
 on:
   schedule:
-    - cron: "0 14 * * *"  # Runs every day at 2 PM UTC (10 AM Eastern)
+    - cron: "0 * * * *"   # Runs every hour, on the hour (UTC)
   workflow_dispatch:      # Allows manual run from GitHub
 
 jobs:

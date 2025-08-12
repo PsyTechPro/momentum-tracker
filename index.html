@@ -81,7 +81,20 @@
           `);
         });
 
-        win.textContent = `Window: ${data.lookback_days} days · ${data.start_date} → ${data.end_date} · Generated UTC: ${data.generated_at_utc}`;
+        // Convert UTC string to a more friendly format
+const genDate = new Date(data.generated_at_utc);
+const formattedDate = genDate.toLocaleString("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+  second: "2-digit",
+  timeZoneName: "short"
+});
+
+win.textContent = `Window: ${data.lookback_days} days · ${data.start_date} → ${data.end_date} · Generated: ${formattedDate}`;
+
       } catch (e) {
         err.style.display = "block";
         err.textContent = "Failed to load data: " + e.message;

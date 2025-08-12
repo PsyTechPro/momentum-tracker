@@ -59,4 +59,11 @@ payload = {
 
 with open("momentum.json", "w", encoding="utf-8") as f:
     json.dump(payload, f, indent=2)
+
+# Print results in GitHub Actions log
+print("\nMomentum Results:")
+for asset in results:
+    print(f"{asset['symbol']}: {asset['momentum_pct']} "
+          f"(from {asset['start_price']:.2f} to {asset['end_price']:.2f})")
+
 print("Wrote momentum.json")

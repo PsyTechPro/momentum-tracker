@@ -66,6 +66,12 @@ Once deployed, the app will:
 - Run on the schedule set in `.github/workflows/run.yml`
 - Update automatically every 15 minutes
 
+## Contact
+If you have questions about using or customizing this tracker, or if you’d like the link to the GitHub repository for your own setup, feel free to reach out:
+
+**Eric Weiser**  
+Email: [eweiser622@gmail.com]  
+GitHub: [https://github.com/PsyTechPro](https://github.com/PsyTechPro)
 
 
 

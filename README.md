@@ -16,7 +16,7 @@ The tracker provides an easy way to spot which assets are surging and which are 
 ## Customizing the Tracked Assets
 
 This tracker is currently set to monitor **BTC-USD**, **ETH-USD**, **SOL-USD**, and **AAPL**.  
-You can change these to any ticker symbols supported by Yahoo Finance.
+You can change these to any ticker symbols supported by Yahoo Finance by following the steps below.
 
 ### Step 1 — Update the Python Script
 1. Open **`momentum_tracker.py`**  

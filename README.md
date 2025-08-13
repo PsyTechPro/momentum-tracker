@@ -57,8 +57,7 @@ If you want the tracker to update automatically and be accessible online (like t
 
 1. **Use GitHub Actions** (already included) to schedule updates
 2. **Deploy the site to a hosting service**:
-   - [Netlify](https://www.netlify.com/): Connect your GitHub repository, select your main branch, and deploy
-   - [Vercel](https://vercel.com/) or [GitHub Pages](https://pages.github.com/) are also good options
+   - I highly recommend [Netlify](https://www.netlify.com/): Connect your GitHub repository, select your main branch, and deploy
 3. **Ensure your hosting service**:
    - Has Python available
    - Installs dependencies from `requirements.txt`

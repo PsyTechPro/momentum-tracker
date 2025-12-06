@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2025-12-06T11:39:13.421699+00:00",
+  "generated_at_utc": "2025-12-06T11:52:56.882995+00:00",
   "lookback_days": 60,
   "start_date": "2025-10-07",
   "end_date": "2025-12-06",
@@ -7,23 +7,23 @@
     {
       "symbol": "BTC-USD",
       "start_price": 122425.4296875,
-      "end_price": 89620.6171875,
-      "momentum": -0.267958,
-      "momentum_pct": "-26.80%"
+      "end_price": 89725.046875,
+      "momentum": -0.267104,
+      "momentum_pct": "-26.71%"
     },
     {
       "symbol": "ETH-USD",
       "start_price": 4489.197265625,
-      "end_price": 3038.79736328125,
-      "momentum": -0.323087,
-      "momentum_pct": "-32.31%"
+      "end_price": 3041.28076171875,
+      "momentum": -0.322533,
+      "momentum_pct": "-32.25%"
     },
     {
       "symbol": "SOL-USD",
       "start_price": 228.00320434570312,
-      "end_price": 133.14073181152344,
-      "momentum": -0.416058,
-      "momentum_pct": "-41.61%"
+      "end_price": 133.23963928222656,
+      "momentum": -0.415624,
+      "momentum_pct": "-41.56%"
     },
     {
       "symbol": "AAPL",
